@@ -17,6 +17,12 @@ app.get("/",(req,res) => {
   res.send("API Running");
 });
 
+
+app.get("/signup",(req,res) => {
+  res.send("This is login page");
+});
+
+
 app.listen(5000, () => {
   console.log("Server is running");
 });
