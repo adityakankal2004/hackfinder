@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtokens";
-import User for "../models/User.js";
+import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 export const signup = async (req,res) => {
   try{
@@ -24,10 +24,10 @@ export const login = async (rea,res) => {
     if(!user) return res.status(400).json({ message:"User not found"});
     
     //Compare the hashed password
-    const isMatch = await.bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if(!isMatch) return res.status(400).jsonn({ message: "Invalid Password"});
     
-    const token = jwt.sign({ id: user._id, name: user.name, role:user.role},process.env.JWT_SECRET,{expiresIn:"7d"}):
+    const token = jwt.sign({ id: user._id, name: user.name, role:user.role},process.env.JWT_SECRET,{expiresIn:"7d"});
 
     res.json({ token, user: {id:user._id,name:user.name,role:user.role}});
   } catch (err) {

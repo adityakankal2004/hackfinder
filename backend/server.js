@@ -1,28 +1,31 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import mongoose from "mongoose";
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
+import hackathonRoutes from "./routes/hackathonRoutes.js";
+
+
 
 dotenv.config();
+connectDB();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.log(err));
 
 app.get("/",(req,res) => {
-  res.send("API Running");
+  res.send("HackFinder API Running");
 });
 
 
-app.get("/signup",(req,res) => {
-  res.send("This is login page");
-});
+app.use("/api/auth",authRoutes);
+app.use("/api/hackathons",hackathonRoutes);
+
+const port = process.env.port || 5000;
 
 
-app.listen(5000, () => {
-  console.log("Server is running");
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
